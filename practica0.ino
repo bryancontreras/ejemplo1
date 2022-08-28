@@ -16,7 +16,7 @@ int SensorNivel = digitalRead(nivel); //leemos lo que marca el nivel
   {
    Serial.println("Nivel de agua correcto, se puede regar");
    digitalWrite(bomba, HIGH);
-   delay(3000);
+   delay(5000);
    digitalWrite(bomba, LOW);
    delay(500);
    }
