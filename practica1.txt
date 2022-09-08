@@ -1,0 +1,24 @@
+Práctica 1 en Windows
+
+Trabajar en remoteo usando HTTPS
+
+Comandos:
+
+$git remote add origin URL HTTPS
+
+$git push origin master/main
+
+Para trabajar en RAMAS
+
+$git branch RAMA
+
+$git ckeckout RAMA
+
+$git status
+$git add archivo.txt
+$git commint -m "texto"
+git log
+
+GitHub, subir la rama
+
+$git push RAMA
