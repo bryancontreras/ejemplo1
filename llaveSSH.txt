@@ -1,0 +1,18 @@
+****WINDOWS****
+
+Para crear la llave SSH se debe hacer:
+
+1. Estar en la carpeta Home de nuestros documentos
+2 Tener el mismo correo en la configutación de Git
+3. Usar el comando para inicializar SSH  *** $git ssh-keygen -t rsa -b 4096 -C "email"
+4. Dar enter para que se guarde en la carpeta que nos muestra
+5. Ingresar una contraseña (opcional)
+
+Nos creará el cifrado, nos dice donde se encuentra salvado desde nuestro ordenador, nos da la huella y una imagen de la llave 
+
+$git eval $(ssh-agent -s) ***con este comando se evalua que un comando SSH se dispare
+Cuando se ejecuta este comando nos dará como resultado una línea de comando como esta:
+
+Agent pid ###
+
+Posteriormente verificar

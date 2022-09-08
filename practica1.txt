@@ -6,6 +6,8 @@ Comandos:
 
 $git remote add origin URL HTTPS
 
+$git pull origin master/main
+
 $git push origin master/main       ***GIT PUSH envia el guardado en el repositorio local, los envía al repositorio remoto***
 
 Para trabajar en RAMAS
