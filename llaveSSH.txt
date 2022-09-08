@@ -15,4 +15,99 @@ Cuando se ejecuta este comando nos dará como resultado una línea de comando co
 
 Agent pid ###
 
-Posteriormente verificar
+Posteriormente verificar que el servidor de cifrado corra bien, debemos agregarla al sistema, para eso siga lo siguiente:
+1. Identificar en que carpeta se guardó el id_rsa
+2. Ingresar el caracter ~ para que nos muestre el directorio
+3. Nos dirigimos a la carpeta por medio de este comando cd ~/-ssh/
+4. Podemos ver con el comando ls -al que nos encontramos en la carpeta indicada
+5. Para agregar la llave debemos poner el siguiente comando con la ruta donde se encuentra nuestro ssh: ssh-add ~/.ssh/id_rsa
+6. Si configuraste la contraseña, debes añadirla para que pueda ejecutarse.
+7. Listo, se mostrará en terminal "Identidad agregada"
+
+Para configurar
+
+
+
+****************MAC**************
+Revisar llave existente:
+
+1. Open Terminal.
+
+2. Enter ls -al ~/.ssh to see if existing SSH keys are present.
+
+3. Check the directory listing to see if you already have a public SSH key. By default, the filenames of supported public keys for GitHub are one of the following.
+
+id_rsa.pub
+id_ecdsa.pub
+id_ed25519.pub
+
+Tip: If you receive an error that ~/.ssh doesn't exist, you do not have an existing SSH key pair in the default location. You can create a new SSH key pair in the next step.
+
+/////////// CREAR UNA NUEVA LLAVE /////////
+
+1. Open Terminal.
+
+2. Paste the text below, substituting in your GitHub email address.
+
+$ ssh-keygen -t ed25519 -C "your_email@example.com"
+Note: If you are using a legacy system that doesn't support the Ed25519 algorithm, use:
+
+$ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+This creates a new SSH key, using the provided email as a label.
+
+> Generating public/private algorithm key pair.
+
+3. When you're prompted to "Enter a file in which to save the key," press Enter. This accepts the default file location.
+
+
+/////agregar la clave al -agent
+
+nicia el agente SSH en segundo plano.
+
+$ eval "$(ssh-agent -s)"
+> Agent pid 59566
+Dependiendo de tu ambiente, puede que necesites utilizar un comando diferente. Por ejemplo, es posible que tenga que usar el acceso raíz mediante la ejecución de sudo -s -H antes de iniciar ssh-agent, o bien que tenga que usar exec ssh-agent bash o exec ssh-agent zsh ejecutar ssh-agent.
+
+Si estás usando macOS Sierra 10.12.2 o una versión posterior, deberás modificar tu archivo ~/.ssh/config para cargar las claves automáticamente en el agente ssh-agent y almacenar las contraseñas en tu cadena de claves.
+
+En primer lugar, comprueba si el archivo ~/.ssh/config existe en la ubicación predeterminada.
+
+$ open ~/.ssh/config
+> The file /Users/you/.ssh/config does not exist.
+Si el archivo no existe, créalo.
+
+$ touch ~/.ssh/config
+Abre el archivo ~/.ssh/config y, a continuación, modifica el archivo para que contenga las líneas siguientes. Si tu llave SSH tiene un nombre o ruta diferentes que el código de ejemplo, modifica el nombre de archivo o ruta para que coincida con tu configuración actual.
+
+Host *
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_ed25519
+
+Notas:
+
+Si decides no agregar una frase de contraseña a la clave, debes omitir la línea UseKeychain.
+
+Si ves un error Bad configuration option: usekeychain, agrega una línea adicional a la sección Host * de la configuración.
+
+Host *
+  IgnoreUnknown UseKeychain
+
+Agrega tu llave privada SSH al ssh-agent y almacena tu contraseña en tu keychain. Si ha creado su clave con un nombre diferente o si está agregando una clave existente que tenga un nombre diferente, reemplace id_ed25519 en el comando con el nombre de su archivo de clave privada.
+
+$ ssh-add -K ~/.ssh/id_ed25519
+Nota: La opción -K es una versión estándar de Apple de ssh-add, que almacena la contraseña en tu cadena de claves cuando agregas una clave SSH al agente ssh-agent. Si eliges no agregar una frase de contraseña a tu clave, ejecuta el comando sin la opción -K.
+
+Si no tienes instalada la versión estándar de Apple, puedes recibir un mensaje de error. Para obtener más información sobre cómo resolver este error, consulta "Error: ssh-add: opción no válida -- K".
+
+En MacOS Monterey (12.0), las marcas -K y -A están en desuso y se han reemplazado por las marcas --apple-use-keychain y --apple-load-keychain, respectivamente.
+
+////Añade la llave a Github
+
+Copy the SSH public key to your clipboard.
+
+If your SSH public key file has a different name than the example code, modify the filename to match your current setup. When copying your key, don't add any newlines or whitespace.
+
+$ pbcopy < ~/.ssh/id_ed25519.pub
+  # Copies the contents of the id_ed25519.pub file to your clipboard
+Tip: If pbcopy isn't working, you can locate the hidden .ssh folder, open the file in your favorite text editor, and copy it to your clipboard.
